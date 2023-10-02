@@ -1,0 +1,30 @@
+{{ define "menu-button" }}
+  <button class="cursor-pointer lg:hidden" id="nav-button">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="30"
+      height="30"
+      viewBox="0 0 100 100"
+      fill="white"
+    >
+      <rect width="80" height="10" rx="5" ry="5" x="10" y="20" />
+      <rect width="80" height="10" rx="5" ry="5" x="10" y="45" />
+      <rect width="80" height="10" rx="5" ry="5" x="10" y="70" />
+    </svg>
+  </button>
+{{ end }}
+
+{{ define "nav" }}
+  <nav
+    id="navbar"
+    class="-translate-x-full transition-transform duration-300 fixed inset-0 bg-black z-[50] w-8/12 p-3 shadow-box flex flex-col gap-2 lg:translate-x-0 lg:relative lg:w-auto lg:min-w-[200px]"
+    hx-target="#content"
+  >
+    <a href="/" class="btn-info">home</a>
+    <a href="/products" class="btn-info">products</a>
+  </nav>
+  <div
+    id="nav-backdrop"
+    class="backdrop-blur-sm hidden inset-0 absolute lg:hidden"
+  ></div>
+{{ end }}

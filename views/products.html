@@ -1,0 +1,75 @@
+{{ template "header" . }}
+<main class="flex h-full flex-1">
+  {{ template "nav" . }}
+  <div class="content-wrapper">
+    <div id="content">
+      {{ block "product-content" . }}
+        <h1 class="text-red-500">Products</h1>
+        <div class="max-w-[90%] overflow-auto">
+          <div class="flex gap-4 items-center justify-between w-full">
+            <div>
+              {{ if .HasPrevPage }}
+                <a
+                  href="?page={{ .PrevPage }}"
+                  hx-target="#content"
+                  class="btn-info"
+                >
+                  Prev
+                </a>
+              {{ end }}
+              page
+              {{ .Page }}
+              {{ if .HasNextPage }}
+                <a
+                  href="?page={{ .NextPage }}"
+                  hx-target="#content"
+                  class="btn-info"
+                >
+                  Next
+                </a>
+              {{ end }}
+            </div>
+            <a href="/add-product" hx-target="#content" class="btn-info">
+              Add Product
+            </a>
+          </div>
+          <table class="w-full">
+            <tr>
+              <th>id</th>
+              <th>name</th>
+              <th>description</th>
+              <th>created at</th>
+              <th>updated at</th>
+              <th>Controls</th>
+            </tr>
+            {{ range $Product := .Products }}
+              {{ block "product-row" $Product }}
+                <tr>
+                  <td>{{ .ID }}</td>
+                  <td>{{ .Name }}</td>
+                  <td>{{ .Description }}</td>
+                  <td>{{ .CreatedAt }}</td>
+                  <td>{{ .UpdatedAt }}</td>
+                  <td>
+                    <a href="/edit-product/{{ .ID }}" hx-target="#content"
+                      >edit</a
+                    >
+                    <a
+                      href="/delete-products/{{ .ID }}"
+                      hx-target="closest tr"
+                      hx-delete="/products/{{ .ID }}"
+                      swap="outerHTML"
+                    >
+                      delete
+                    </a>
+                  </td>
+                </tr>
+              {{ end }}
+            {{ end }}
+          </table>
+        </div>
+      {{ end }}
+    </div>
+    {{ template "footer" . }}
+  </div>
+</main>

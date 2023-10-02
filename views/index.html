@@ -1,0 +1,15 @@
+{{ template "header" . }}
+<main class="flex h-full flex-1">
+  {{ template "nav" . }}
+  <div class="content-wrapper">
+    <div id="content">
+      {{ block "index-content" .}}
+      <h1 class="text-red-500">HOME PAGE</h1>
+      <p>
+        Feel free to style this shit
+      </p>
+      {{end}}
+    </div>
+    {{ template "footer" . }}
+  </div>
+</main>

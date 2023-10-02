@@ -1,0 +1,44 @@
+{{ template "header" . }}
+<main class="flex h-full flex-1">
+  {{ template "nav" . }}
+  <div class="content-wrapper">
+    <div id="content">
+      {{ block "add-edit-product-content" . }}
+        <h1>{{ if .ID }}Edit{{ else }}Add{{ end }} Product</h1>
+        {{ block "add-edit-product-form" . }}
+          <form
+            {{ if .ID }}
+              action="/products/{{ .ID }}"
+            {{ else }}
+              action="/products"
+            {{ end }}
+            method="post"
+            hx-target="#content"
+            hx-push-url="true"
+          >
+            <label for="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter Name of Product"
+              id="name"
+              minlength="3"
+              {{ if .ID }}value="{{ .Name }}"{{ end }}
+            />
+            <label for="description">Description</label>
+            <input
+              type="text"
+              name="description"
+              placeholder="Enter Description of Product"
+              id="description"
+              minlength="3"
+              {{ if .ID }}value="{{ .Description }}"{{ end }}
+            />
+            <button type="submit" class="btn-info">Submit</button>
+          </form>
+        {{ end }}
+      {{ end }}
+    </div>
+    {{ template "footer" . }}
+  </div>
+</main>

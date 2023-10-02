@@ -1,0 +1,7 @@
+{{ define "header" }}
+  <header class="flex items-center justify-between p-3 shadow-box">
+    {{ template "menu-button" . }}
+    I am Your Header Bitch
+    <a href="/logout" hx-get="/logout" class="btn-info">Logout</a>
+  </header>
+{{ end }}

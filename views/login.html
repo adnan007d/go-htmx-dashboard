@@ -1,0 +1,68 @@
+<main class="grid min-h-screen place-items-center">
+  {{ block "loginform" . }}
+    <form
+      method="post"
+      action="/login"
+      hx-indicator="button>.spinner"
+      class="space-y-5 w-11/12 max-w-lg shadow-box rounded-md  p-3 py-4"
+    >
+      <h1 class="text-3xl font-semibold text-center">Login</h1>
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="Enter Your Emaail"
+          {{ if .Email }}value="{{ .Email }}"{{ end }}
+          required
+        />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="Enter Your Password"
+          required
+          minlength="8"
+        />
+      </div>
+      <span
+        class="text-red-500 text-center block
+        {{ if .Error }}
+          visible
+        {{ else }}
+          invisible
+        {{ end }}"
+        id="form-error"
+      >
+        {{ .Error }}
+      </span>
+      <button
+        type="submit"
+        class="btn-info mx-auto flex gap-1 items-center relative"
+      >
+        <span> Login </span>
+        <div class="htmx-indicator m-auto spinner absolute inset-0"></div>
+      </button>
+    </form>
+  {{ end }}
+  <script>
+    const formElement = document.getElementsByTagName("form")[0];
+    const formError = document.getElementById("form-error");
+
+    formElement.addEventListener("htmx:beforeRequest", (evt) => {
+      formError.style.visibility = "hidden";
+      document.querySelector("form>button[type='submit']").disabled = true;
+    });
+    formElement.addEventListener("htmx:afterRequest", (evt) => {
+      document.querySelector("form>button[type='submit']").disabled = false;
+      if (evt.detail.xhr.status === 400) {
+        formError.style.visibility = "visible";
+        formError.innerText = evt.detail.xhr.response;
+      }
+    });
+  </script>
+</main>
